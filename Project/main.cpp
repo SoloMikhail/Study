@@ -1,15 +1,18 @@
 #include <iostream>
 #include <string>
-
-using namespace std;
+#include "FBullCowGame.h"
 
 void PrintIntro();
 void PlayGame();
-string GetGuess();
+std::string GetGuess();
 bool AskToPlayAgain();
 
+FBullCowGame BCGame; // instantiate a new game
+
+//the entry point for our application
 int main()
 {
+	std::cout << BCGame.GetCurrentTry();
 	bool bPlayAgain = false;
 	do {
 		PrintIntro();
@@ -25,39 +28,44 @@ int main()
 void PrintIntro() 
 {
 	constexpr int WORLD_LENGTH = 9;
-	cout << "Welcome to BULLS AND COWS, a fun word game. \n";
-	cout << "Can you guess the " << WORLD_LENGTH;
-	cout << " letter isogram I'm thinking of?\n";
-	cout << endl;
+	std::cout << "Welcome to BULLS AND COWS, a fun word game. \n";
+	std::cout << "Can you guess the " << WORLD_LENGTH;
+	std::cout << " letter isogram I'm thinking of?\n";
+	std::cout << std::endl;
 	return;
 }
 
 
 void PlayGame()
 {
+	BCGame.Reset();
+	int MaxTries = BCGame.GetMaxTries();
+	std::cout << MaxTries << std::endl;
 	// loop for the  number of turns asking for guess
-	constexpr int NUMBER_OF_TURNS = 5;
-	for (int count = 1; count <= NUMBER_OF_TURNS; count++)
+	
+	for (int count = 1; count <= MaxTries; count++)
 	{
-		string Guess = GetGuess();
-		cout << "Your guess was: " << Guess << endl;
-		cout << endl;
+		std::string Guess = GetGuess();
+		std::cout << "Your guess was: " << Guess << std::endl;
+		std::cout << std::endl;
 	}
 }
 
-string GetGuess() 
+std::string GetGuess() 
 {
+	int CurrentTry = BCGame.GetCurrentTry();
+
 	//get a guess from the player
-	cout << "Enter your guess: ";
-	string Guess = "";
-	getline(cin, Guess);
+	std::cout << " Try " << CurrentTry << ". Enter your guess: ";
+	std::string Guess = "";
+	std::getline(std::cin, Guess);
 	return Guess;
 }
 
 bool AskToPlayAgain()
 {
-	cout << "Do you want to play again (y/n)?";
-	string Responce = "";
-	getline(cin, Responce);
+	std::cout << "Do you want to play again (y/n)?";
+	std::string Responce = "";
+	std::getline(std::cin, Responce);
 	return (Responce[0] == 'y') || (Responce[0] == 'Y');
 }
